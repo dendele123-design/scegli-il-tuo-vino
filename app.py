@@ -69,7 +69,7 @@ vini = [
         "corpo": "Di Medio Corpo", "stile": "Secco", "abbinamento": "Carne", "mood": "Incontro di lavoro",
         "prezzo": "70.00€", "descr": "Grande bevibilità, ciliegia e sottobosco.",
         "perche": "Un rosso di classe che accompagna la conversazione senza sovrastarla.",
-        "link": "www.cartavinidigitale.it/menu-digitale-wineart/#1745654818035-20641e56-b023"
+        "link": "http://www.cartavinidigitale.it/menu-digitale-wineart/#1745654818035-20641e56-b023"
     }
 ]
 
