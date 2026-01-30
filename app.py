@@ -19,74 +19,67 @@ st.markdown("""
     }
     .wine-price { color: #800020; font-size: 26px; font-weight: bold; margin-top: 10px; }
     .stButton>button { width: 100%; border-radius: 25px; height: 3.5em; background-color: #800020; color: white; font-weight: bold; border: none; }
+    /* Stile per il link della scheda */
+    .stLinkButton>a { width: 100% !important; border-radius: 20px !important; text-align: center !important; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. DATABASE VINI AGGIORNATO (Mood: Incontro di lavoro) ---
+# --- 3. DATABASE VINI (Con link alla carta) ---
 vini = [
     # BOLLICINE
     {
         "nome": "Champagne Vintage 2013", "cantina": "Dom Pérignon", "tipo": "Bollicine",
         "corpo": "Robusto", "stile": "Minerale", "abbinamento": "Pesce", "mood": "Occasione Speciale",
         "prezzo": "280.00€", "descr": "Un'icona di equilibrio e complessità.",
-        "perche": "Il massimo prestigio per celebrare un accordo storico."
+        "perche": "Il massimo prestigio per celebrare un accordo storico.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/" # Sostituisci con link specifico
     },
     {
         "nome": "Franciacorta Cuveé Prestige", "cantina": "Ca' del Bosco", "tipo": "Bollicine",
         "corpo": "Leggero", "stile": "Secco", "abbinamento": "Aperitivo", "mood": "Incontro di lavoro",
         "prezzo": "45.00€", "descr": "Equilibrato, fresco e piacevolmente acido.",
-        "perche": "Elegante e professionale, ideale per un aperitivo di business."
+        "perche": "Elegante e professionale, ideale per un aperitivo di business.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/"
     },
-    {
-        "nome": "Prosecco Valdobbiadene Sup. DOCG", "cantina": "Col Vetoraz", "tipo": "Bollicine",
-        "corpo": "Leggero", "stile": "Fruttato", "abbinamento": "Aperitivo", "mood": "Cena con amici",
-        "prezzo": "22.00€", "descr": "Note di mela, pera e fiori d'acacia.",
-        "perche": "Freschezza e brio per un momento informale tra colleghi."
-    },
-
     # BIANCHI
     {
         "nome": "Greco di Tufo Giallo d'Arles", "cantina": "Quintodecimo", "tipo": "Bianco",
         "corpo": "Di Medio Corpo", "stile": "Minerale", "abbinamento": "Pesce", "mood": "Incontro di lavoro",
         "prezzo": "55.00€", "descr": "Giallo oro, sentori di albicocca e note minerali.",
-        "perche": "Un bianco autorevole che dimostra competenza e buon gusto."
+        "perche": "Un bianco autorevole che dimostra competenza e buon gusto.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/"
     },
     {
         "nome": "Pinot Grigio", "cantina": "Jermann", "tipo": "Bianco",
         "corpo": "Leggero", "stile": "Secco", "abbinamento": "Pesce", "mood": "Incontro di lavoro",
         "prezzo": "35.00€", "descr": "Intenso, persistente, con un corpo eccezionale.",
-        "perche": "Un classico intramontabile per un business lunch di alto livello."
+        "perche": "Un classico intramontabile per un business lunch di alto livello.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/"
     },
-    {
-        "nome": "Sauvignon Winkl", "cantina": "Terlan", "tipo": "Bianco",
-        "corpo": "Leggero", "stile": "Aromatico", "abbinamento": "Pesce", "mood": "Cena con amici",
-        "prezzo": "32.00€", "descr": "Note intense di sambuco e frutta tropicale.",
-        "perche": "Fresco e immediato, perfetto per una chiacchierata informale."
-    },
-
     # ROSSI
     {
         "nome": "Sassicaia 2020", "cantina": "Tenuta San Guido", "tipo": "Rosso",
         "corpo": "Robusto", "stile": "Secco", "abbinamento": "Carne", "mood": "Occasione Speciale",
         "prezzo": "350.00€", "descr": "Maestoso, note di piccoli frutti rossi.",
-        "perche": "Quando il tavolo delle trattative richiede il peso massimo dell'enologia."
+        "perche": "Quando il tavolo delle trattative richiede il peso massimo dell'enologia.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/"
     },
     {
         "nome": "Brunello di Montalcino", "cantina": "Casanova di Neri", "tipo": "Rosso",
         "corpo": "Di Medio Corpo", "stile": "Secco", "abbinamento": "Carne", "mood": "Incontro di lavoro",
         "prezzo": "70.00€", "descr": "Grande bevibilità, ciliegia e sottobosco.",
-        "perche": "Un rosso di classe che accompagna la conversazione senza sovrastarla."
-    },
-    {
-        "nome": "Pinot Nero Barthenau", "cantina": "J. Hofstatter", "tipo": "Rosso",
-        "corpo": "Leggero", "stile": "Aromatico", "abbinamento": "Carne", "mood": "Incontro di lavoro",
-        "prezzo": "90.00€", "descr": "Finezza assoluta, note di lampone.",
-        "perche": "Sottile ed elegante, perfetto per chi vuole distinguersi con discrezione."
+        "perche": "Un rosso di classe che accompagna la conversazione senza sovrastarla.",
+        "link": "https://www.cartavinidigitale.it/menu-digitale-wineart/"
     }
 ]
 
 # --- 4. INTERFACCIA ---
 st.title("🍷 WineArt Selector")
+
+# Tasto per tornare alla carta principale
+st.link_button("⬅️ TORNA ALLA CARTA VINI", "https://www.cartavinidigitale.it/menu-digitale-wineart/")
+
+st.write("")
 st.subheader("Il consulente digitale per la tua scelta in cantina")
 st.divider()
 
@@ -96,7 +89,6 @@ with col1:
     corpo = st.selectbox("3. Struttura del vino?", ["Scegli...", "Leggero", "Di Medio Corpo", "Robusto"])
 
 with col2:
-    # MODIFICATO QUI: Serata romantica -> Incontro di lavoro
     mood = st.selectbox("2. Che atmosfera cerchi?", ["Scegli...", "Cena con amici", "Incontro di lavoro", "Occasione Speciale"])
     stile = st.selectbox("4. Carattere preferito?", ["Scegli...", "Secco", "Fruttato", "Aromatico", "Minerale"])
 
@@ -112,13 +104,13 @@ if st.button("INTERROGA IL SOMMELIER 🍇"):
         
         match = [v for v in vini if v["abbinamento"] == cibo and v["mood"] == mood]
         
-        # Logica di tolleranza
         if not match:
             match = [v for v in vini if v["abbinamento"] == cibo]
 
         if match:
             st.success(f"Ecco le proposte ideali per il tuo {mood}:")
             for vino in match:
+                # Scheda del vino
                 st.markdown(f"""
                 <div class="wine-card">
                     <small style="color: #888;">{vino['tipo']} • {vino['corpo']} • {vino['stile']}</small>
@@ -131,6 +123,10 @@ if st.button("INTERROGA IL SOMMELIER 🍇"):
                     <div class="wine-price">{vino['prezzo']}</div>
                 </div>
                 """, unsafe_allow_html=True)
+                
+                # TASTO LINK SCHEDA VINO (Sotto la card)
+                st.link_button(f"📄 VEDI SCHEDA COMPLETA DI {vino['nome'].upper()}", vino['link'])
+                st.write("")
         else:
             st.error("Nessun vino trovato. Contatta il nostro sommelier!")
 
