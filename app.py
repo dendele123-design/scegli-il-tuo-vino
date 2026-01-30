@@ -5,7 +5,7 @@ import random
 # --- 1. CONFIGURAZIONE PAGINA ---
 st.set_page_config(page_title="WineArt Selector", page_icon="🍷", layout="centered")
 
-# --- 2. STILE CSS (Look Professionale WineArt) ---
+# --- 2. STILE CSS (WineArt Design) ---
 st.markdown("""
     <style>
     .main { background-color: #f4f4f4; }
@@ -32,101 +32,92 @@ st.markdown("""
         font-weight: bold;
         border: none;
     }
-    .stButton>button:hover {
-        background-color: #a00028;
-        color: white;
-    }
     </style>
     """, unsafe_allow_html=True)
 
-# --- 3. DATABASE VINI (Aggiungi qui i tuoi vini reali) ---
-# Ricordati: ogni riga deve finire con la virgola, tranne l'ultima del blocco.
+# --- 3. DATABASE VINI REALI (Dalla tua carta WineArt) ---
 vini = [
+    # BOLLICINE
     {
-        "nome": "Amarone della Valpolicella",
-        "cantina": "Bertani",
-        "tipo": "Rosso",
-        "corpo": "Robusto",
-        "stile": "Fruttato",
-        "abbinamento": "Carne",
-        "mood": "Occasione Speciale",
-        "prezzo": "85.00€",
-        "descr": "Note di amarena, cioccolato e spezie. Un classico intramontabile.",
-        "perche": "La sua potenza ed eleganza lo rendono perfetto per i momenti che contano."
+        "nome": "Champagne Vintage 2013", "cantina": "Dom Pérignon", "tipo": "Bollicine",
+        "corpo": "Robusto", "stile": "Minerale", "abbinamento": "Pesce", "mood": "Occasione Speciale",
+        "prezzo": "280.00€", "descr": "Un'icona di equilibrio e complessità, note floreali e minerali.",
+        "perche": "Per rendere un momento storico assolutamente indimenticabile."
     },
     {
-        "nome": "Vermentino di Gallura",
-        "cantina": "Sella & Mosca",
-        "tipo": "Bianco",
-        "corpo": "Leggero",
-        "stile": "Minerale",
-        "abbinamento": "Pesce",
-        "mood": "Cena con amici",
-        "prezzo": "28.00€",
-        "descr": "Sapido, fresco, con richiami di macchia mediterranea.",
-        "perche": "Perfetto per accompagnare crudi di pesce e risate in compagnia."
+        "nome": "Franciacorta Cuveé Prestige", "cantina": "Ca' del Bosco", "tipo": "Bollicine",
+        "corpo": "Leggero", "stile": "Secco", "abbinamento": "Aperitivo", "mood": "Cena con amici",
+        "prezzo": "45.00€", "descr": "Equilibrato, fresco e piacevolmente acido.",
+        "perche": "Il classico intramontabile per iniziare ogni serata col piede giusto."
     },
     {
-        "nome": "Franciacorta Brut DOCG",
-        "cantina": "Bellavista",
-        "tipo": "Bollicine",
-        "corpo": "Leggero",
-        "stile": "Secco",
-        "abbinamento": "Aperitivo",
-        "mood": "Serata romantica",
-        "prezzo": "45.00€",
-        "descr": "Perlage fine, note di crosta di pane e agrumi.",
-        "perche": "Le bollicine sono l'inizio universale di ogni grande serata d'amore."
+        "nome": "Prosecco Valdobbiadene Sup. DOCG", "cantina": "Col Vetoraz", "tipo": "Bollicine",
+        "corpo": "Leggero", "stile": "Fruttato", "abbinamento": "Aperitivo", "mood": "Cena con amici",
+        "prezzo": "22.00€", "descr": "Note di mela, pera e fiori d'acacia.",
+        "perche": "Freschezza e brio per un brindisi leggero e profumato."
+    },
+
+    # BIANCHI
+    {
+        "nome": "Greco di Tufo Giallo d'Arles", "cantina": "Quintodecimo", "tipo": "Bianco",
+        "corpo": "Di Medio Corpo", "stile": "Minerale", "abbinamento": "Pesce", "mood": "Serata romantica",
+        "prezzo": "55.00€", "descr": "Giallo oro, sentori di albicocca e note minerali profonde.",
+        "perche": "Un bianco di grande carattere che incanta per la sua sapidità."
     },
     {
-        "nome": "Gewürztraminer",
-        "cantina": "Tramin",
-        "tipo": "Bianco",
-        "corpo": "Di Medio Corpo",
-        "stile": "Aromatico",
-        "abbinamento": "Pesce",
-        "mood": "Serata romantica",
-        "prezzo": "32.00€",
-        "descr": "Profumi intensi di litchi, rosa e spezie orientali.",
-        "perche": "Il suo carattere avvolgente incanta i sensi fin dal primo sorso."
+        "nome": "Chardonnay Lowengang", "cantina": "Alois Lageder", "tipo": "Bianco",
+        "corpo": "Robusto", "stile": "Secco", "abbinamento": "Pesce", "mood": "Occasione Speciale",
+        "prezzo": "75.00€", "descr": "Affidato al legno, complesso, con note di burro e vaniglia.",
+        "perche": "Se cerchi un bianco che abbia la struttura di un grande rosso."
     },
     {
-        "nome": "Brunello di Montalcino",
-        "cantina": "Biondi Santi",
-        "tipo": "Rosso",
-        "corpo": "Robusto",
-        "stile": "Secco",
-        "abbinamento": "Carne",
-        "mood": "Occasione Speciale",
-        "prezzo": "95.00€",
-        "descr": "Struttura eterna, note di cuoio, tabacco e frutti neri.",
-        "perche": "Se cerchi il massimo dell'eleganza toscana, non puoi sbagliare."
+        "nome": "Sauvignon Winkl", "cantina": "Terlan", "tipo": "Bianco",
+        "corpo": "Leggero", "stile": "Aromatico", "abbinamento": "Pesce", "mood": "Cena con amici",
+        "prezzo": "32.00€", "descr": "Note intense di sambuco, frutta tropicale e peperone giallo.",
+        "perche": "L'aperitivo o la cena di pesce trovano il compagno ideale per profumi e freschezza."
+    },
+
+    # ROSSI
+    {
+        "nome": "Sassicaia 2020", "cantina": "Tenuta San Guido", "tipo": "Rosso",
+        "corpo": "Robusto", "stile": "Secco", "abbinamento": "Carne", "mood": "Occasione Speciale",
+        "prezzo": "350.00€", "descr": "Maestoso, note di piccoli frutti rossi, erbe aromatiche e tannini setosi.",
+        "perche": "Stai scegliendo la storia dell'enologia mondiale. Non serve aggiungere altro."
     },
     {
-        "nome": "Moscato d'Asti DOCG",
-        "cantina": "Vietti",
-        "tipo": "Dolce",
-        "corpo": "Leggero",
-        "stile": "Fruttato",
-        "abbinamento": "Dessert",
-        "mood": "Cena con amici",
-        "prezzo": "22.00€",
-        "descr": "Dolce, frizzante e incredibilmente fresco.",
-        "perche": "Per chiudere la cena con una nota allegra e zuccherina."
+        "nome": "Tignanello 2020", "cantina": "Antinori", "tipo": "Rosso",
+        "corpo": "Robusto", "stile": "Fruttato", "abbinamento": "Carne", "mood": "Occasione Speciale",
+        "prezzo": "160.00€", "descr": "Note di frutti rossi maturi, vaniglia e pepe nero.",
+        "perche": "Un supertuscan leggendario per chi vuole eleganza e potenza."
+    },
+    {
+        "nome": "Brunello di Montalcino", "cantina": "Casanova di Neri", "tipo": "Rosso",
+        "corpo": "Di Medio Corpo", "stile": "Secco", "abbinamento": "Carne", "mood": "Serata romantica",
+        "prezzo": "70.00€", "descr": "Grande bevibilità, ciliegia, cuoio e sottobosco.",
+        "perche": "L'eleganza del Sangiovese in purezza per una cena di classe."
+    },
+    {
+        "nome": "Primitivo di Manduria Es", "cantina": "Gianfranco Fino", "tipo": "Rosso",
+        "corpo": "Robusto", "stile": "Fruttato", "abbinamento": "Carne", "mood": "Cena con amici",
+        "prezzo": "85.00€", "descr": "Un'esplosione di frutta rossa in confettura e spezie dolci.",
+        "perche": "Un vino generoso, avvolgente e potente che scalda la serata."
+    },
+    {
+        "nome": "Pinot Nero Barthenau", "cantina": "J. Hofstatter", "tipo": "Rosso",
+        "corpo": "Leggero", "stile": "Aromatico", "abbinamento": "Carne", "mood": "Serata romantica",
+        "prezzo": "90.00€", "descr": "Finezza assoluta, note di lampone e frutti di bosco.",
+        "perche": "Il vino della seduzione: leggero, profumato e incredibilmente elegante."
     }
 ]
 
 # --- 4. INTERFACCIA UTENTE ---
 st.title("🍷 WineArt Selector")
-st.subheader("Trova la bottiglia ideale per la tua serata")
-st.write("Rispondi alle domande e lascia che il sommelier scelga per te.")
+st.subheader("Trova la bottiglia ideale dalla nostra carta")
 st.divider()
 
-# Griglia di selezione (2 colonne)
 col1, col2 = st.columns(2)
-
 with col1:
-    cibo = st.selectbox("1. Cosa c'è nel piatto?", ["Scegli...", "Aperitivo", "Pesce", "Carne", "Dessert"])
+    cibo = st.selectbox("1. Cosa c'è nel piatto?", ["Scegli...", "Aperitivo", "Pesce", "Carne"])
     corpo = st.selectbox("3. Struttura del vino?", ["Scegli...", "Leggero", "Di Medio Corpo", "Robusto"])
 
 with col2:
@@ -136,46 +127,48 @@ with col2:
 st.write("")
 
 # --- 5. LOGICA DI RICERCA ---
-if st.button("TROVA IL VINO IDEALE 🍇"):
-    
+if st.button("INTERROGA IL SOMMELIER 🍇"):
     if cibo == "Scegli..." or mood == "Scegli...":
-        st.warning("Seleziona almeno i primi due campi (Cibo e Atmosfera)!")
+        st.warning("Seleziona almeno Cibo e Atmosfera!")
     else:
-        with st.spinner("Il sommelier sta consultando la cantina..."):
+        with st.spinner("Sto consultando la cantina WineArt..."):
             time.sleep(1.2)
         
-        # Iniziamo con tutti i vini che si abbinano al cibo scelto
+        # Iniziamo filtrando per Cibo (fondamentale)
         match = [v for v in vini if v["abbinamento"] == cibo]
         
-        # Raffiniamo la ricerca in base alle altre scelte (se effettuate)
+        # Filtriamo per Mood
         if mood != "Scegli...":
             match = [v for v in match if v["mood"] == mood]
         
+        # Se l'utente ha scelto anche Corpo o Stile, proviamo a restringere
+        # Ma se la ricerca diventa troppo stretta (0 risultati), mostriamo comunque i match precedenti
+        match_stretto = match.copy()
         if corpo != "Scegli...":
-            match = [v for v in match if v["corpo"] == corpo]
-            
+            match_stretto = [v for v in match_stretto if v["corpo"] == corpo]
         if stile != "Scegli...":
-            match = [v for v in match if v["stile"] == stile]
+            match_stretto = [v for v in match_stretto if v["stile"] == stile]
+
+        final_list = match_stretto if match_stretto else match
 
         # --- 6. RISULTATI ---
-        if match:
-            st.success(f"Ho trovato {len(match)} proposta/e perfetta/e per te:")
-            for vino in match:
+        if final_list:
+            st.success(f"Dalla nostra carta, ecco {len(final_list)} proposte per te:")
+            for vino in final_list:
                 st.markdown(f"""
                 <div class="wine-card">
-                    <small style="color: #888; text-transform: uppercase;">{vino['tipo']} • {vino['corpo']} • {stile if stile != 'Scegli...' else vino['stile']}</small>
+                    <small style="color: #888;">{vino['tipo']} • {vino['corpo']} • {vino['stile']}</small>
                     <h1 style="color: #800020; margin: 5px 0;">{vino['nome']}</h1>
-                    <p style="margin: 0; font-weight: bold;">Cantina: {vino['cantina']}</p>
-                    <p style="margin-top: 10px; font-style: italic; color: #444;">"{vino['descr']}"</p>
-                    <div style="background-color: #f9f0f2; padding: 15px; border-radius: 8px; border-left: 4px solid #800020; margin-top: 15px;">
-                        <b>IL SOMMELIER DICE:</b> {vino['perche']}
+                    <p style="margin: 0; font-weight: bold;">{vino['cantina']}</p>
+                    <p style="margin-top: 10px; font-style: italic;">"{vino['descr']}"</p>
+                    <div style="background-color: #f9f0f2; padding: 12px; border-radius: 8px; border-left: 4px solid #800020; margin-top: 15px;">
+                        <b>IL CONSIGLIO:</b> {vino['perche']}
                     </div>
                     <div class="wine-price">{vino['prezzo']}</div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
-            st.error("Purtroppo non ho un vino che soddisfi tutti i criteri contemporaneamente. Prova a cambiare 'Struttura' o 'Carattere'!")
+            st.error("Nessun vino trovato. Chiedi al sommelier in sala, ha sempre qualche rarità fuori carta!")
 
-# --- 7. FOOTER ---
 st.divider()
-st.caption("WineArt Selector - Tecnologia applicata all'eccellenza enologica.")
+st.caption("WineArt Selector - Scegli l'eccellenza.")
