@@ -49,7 +49,7 @@ vini = [
         "prezzo": "36€", "uve": "Petite Arvine 100%", 
         "olfatto": "Note di frutta esotica, agrumi e fiori bianchi.",
         "gusto": "Sapido, fresco e minerale.",
-        "immagine": "https://www.lescretes.it/wp-content/uploads/2021/04/Petite-Arvine-Les-Cretes.png",
+        "immagine": "https://www.cartavinidigitale.it/wp-content/uploads/2026/01/Les_cretes_fumin_superstart.jpg",
         "tipo": "Vini Bianchi", "corpo": "Leggero", "stile": "Minerale", 
         "abbinamento": "Pesce", "mood": "Incontro di lavoro", "link": LINK_BIANCHI
     },
