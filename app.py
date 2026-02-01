@@ -1,127 +1,128 @@
-# =================================================================
-# 1. IMPORTAZIONE STRUMENTI (Le librerie che servono al programma)
-# =================================================================
-import streamlit as st  # Serve per creare il sito web
-import time             # Serve per creare l'effetto "caricamento"
+import streamlit as st
+import time
+import random
 
 # =================================================================
-# 2. CONFIGURAZIONE DELLA PAGINA (Titolo del tab e Icona)
+# 1. CONFIGURAZIONE E GRAFICA (Il "Look" dell'app)
 # =================================================================
 st.set_page_config(page_title="WineArt Selector", page_icon="🍷", layout="centered")
 
-# =================================================================
-# 3. DESIGN E GRAFICA (Qui decidiamo i colori e le ombre)
-# =================================================================
 st.markdown("""
     <style>
-    /* Sfondo generale del sito */
-    .main { background-color: #fdfaf5; } 
-    
-    /* Stile del bottone principale */
-    .stButton>button { width: 100%; border-radius: 25px; background-color: #800020; color: white; font-weight: bold; }
-    
-    /* La "Cornice" del vino (Wine Card) */
+    .main { background-color: #fdfaf5; }
     .wine-card {
         text-align: center;
         background-color: white;
         padding: 30px;
         border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Ombra leggera */
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         margin-bottom: 30px;
     }
-    
-    /* Colore e dimensione dei testi nella scheda */
-    .wine-title { color: #800020; font-size: 32px; font-weight: bold; }
-    .wine-producer { font-size: 20px; font-weight: bold; color: #333; }
-    .wine-region { color: #800020; font-weight: bold; font-size: 18px; }
-    .wine-price { font-size: 24px; color: #444; margin-bottom: 20px; }
-    
-    /* Allineamento delle info tecniche (Uve, Olfatto, Gusto) */
-    .tech-info {
-        text-align: left;
-        display: inline-block;
-        max-width: 400px;
-        font-size: 16px;
-        line-height: 1.6;
-        color: #444;
-    }
-    .check { color: #800020; margin-right: 10px; font-weight: bold; }
+    .wine-title { color: #800020; font-size: 30px; font-weight: bold; margin-bottom: 0px; }
+    .wine-producer { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 0px; }
+    .wine-region { color: #800020; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+    .wine-price { font-size: 22px; color: #444; margin-bottom: 20px; font-weight: bold; }
+    .tech-info { text-align: left; display: inline-block; max-width: 450px; font-size: 15px; color: #444; }
+    .check { color: #800020; margin-right: 8px; font-weight: bold; }
+    .stButton>button { width: 100%; border-radius: 25px; background-color: #800020; color: white; font-weight: bold; }
+    .stLinkButton>a { width: 100% !important; border-radius: 20px !important; text-align: center !important; font-weight: bold !important; }
     </style>
     """, unsafe_allow_html=True)
 
 # =================================================================
-# 4. IL DATABASE DEI VINI (Qui è dove aggiungi o modifichi i vini)
+# 2. LINK ALLE CATEGORIE (Le tue ancore di WordPress)
 # =================================================================
-# Ogni blocco tra { ... } è una bottiglia. Copia e incolla per aggiungerne altre.
+LINK_BASE = "https://www.cartavinidigitale.it/menu-digitale-wineart/"
+LINK_BOLLICINE = f"{LINK_BASE}#1740398853462-a2bc72ab-7b7d"
+LINK_CHAMPAGNE = f"{LINK_BASE}#1745914895725-84011f71-5d21"
+LINK_BIANCHI = f"{LINK_BASE}#1745853678461-fb96405a-dddb"
+LINK_ROSE = f"{LINK_BASE}#1740390912898-ab964a88-abf3"
+LINK_ROSSI = f"{LINK_BASE}#1745654818035-20641e56-b023"
+LINK_ESTERI = f"{LINK_BASE}#1745917570747-12734a65-c3ee"
+
+# =================================================================
+# 3. DATABASE VINI (Esempio con i campi della scheda tecnica)
+# =================================================================
 vini = [
     {
-        "nome": "Petite Arvine",
-        "produttore": "Les Cretes",
-        "regione": "Valle d'Aosta",
-        "prezzo": "36 €",
-        "uve": "Petite Arvine",
-        "olfatto": "Note di frutta esotica, agrumi, bacche di ginepro, biancospino.",
-        "gusto": "Sapido e fresco, minerale e bilanciato.",
+        "nome": "Petite Arvine", "produttore": "Les Cretes", "regione": "Valle d'Aosta",
+        "prezzo": "36€", "uve": "Petite Arvine 100%", 
+        "olfatto": "Note di frutta esotica, agrumi e fiori bianchi.",
+        "gusto": "Sapido, fresco e minerale.",
         "immagine": "https://www.lescretes.it/wp-content/uploads/2021/04/Petite-Arvine-Les-Cretes.png",
-        "tipo": "Bianco",
-        "abbinamento": "Pesce",          # Deve coincidere con le opzioni del menu sotto
-        "mood": "Cena con amici",       # Deve coincidere con le opzioni del menu sotto
-        "link_carta": "https://www.cartavinidigitale.it/menu-digitale-wineart/#ancora"
+        "tipo": "Vini Bianchi", "corpo": "Leggero", "stile": "Minerale", 
+        "abbinamento": "Pesce", "mood": "Incontro di lavoro", "link": LINK_BIANCHI
     },
     {
-        "nome": "Brunello di Montalcino",
-        "produttore": "Casanova di Neri",
-        "regione": "Toscana",
-        "prezzo": "70 €",
-        "uve": "Sangiovese 100%",
-        "olfatto": "Ciliegia matura, sottobosco e cuoio.",
-        "gusto": "Elegante, tannini setosi, grande persistenza.",
-        "immagine": "https://www.casanovadineri.it/uploads/bottiglie/brunello-di-montalcino-docg.png",
-        "tipo": "Rosso",
-        "abbinamento": "Carne",
-        "mood": "Incontro di lavoro",
-        "link_carta": "https://www.cartavinidigitale.it/menu-digitale-wineart/#ancora"
+        "nome": "Sassicaia 2020", "produttore": "Tenuta San Guido", "regione": "Toscana",
+        "prezzo": "350€", "uve": "Cabernet Sauvignon, Cabernet Franc", 
+        "olfatto": "Piccoli frutti rossi, erbe aromatiche e note tostate.",
+        "gusto": "Maestoso, con tannini setosi e infinita persistenza.",
+        "immagine": "https://www.tenutasanguido.com/images/bottiglia_sassicaia.png", # Link esempio
+        "tipo": "Vini Rossi", "corpo": "Robusto", "stile": "Secco", 
+        "abbinamento": "Carne", "mood": "Occasione Speciale", "link": LINK_ROSSI
+    },
+    {
+        "nome": "Franciacorta Cuveé Prestige", "produttore": "Ca' del Bosco", "regione": "Lombardia",
+        "prezzo": "45€", "uve": "Chardonnay, Pinot Nero, Pinot Bianco", 
+        "olfatto": "Note di agrumi, crosta di pane e frutta bianca.",
+        "gusto": "Equilibrato, fresco e piacevolmente acido.",
+        "immagine": "https://www.cadelbosco.com/wp-content/uploads/2021/03/cuvee-prestige.png", # Link esempio
+        "tipo": "Bollicine", "corpo": "Leggero", "stile": "Secco", 
+        "abbinamento": "Aperitivo", "mood": "Incontro di lavoro", "link": LINK_BOLLICINE
     }
+    # AGGIUNGI QUI GLI ALTRI VINI SEGUENDO QUESTO SCHEMA...
 ]
 
 # =================================================================
-# 5. INTERFACCIA UTENTE (Quello che vede il cliente)
+# 4. INTERFACCIA (Menu e Pulsanti)
 # =================================================================
 st.title("🍷 WineArt Selector")
-st.subheader("La tua guida alla bottiglia perfetta")
-st.divider()
+# Tasto in alto per tornare al sito
+st.link_button("📖 CARTA VINI COMPLETA", LINK_BASE)
+st.write("")
 
-# Creiamo due colonne per le domande
+# Le 4 caselle di scelta
 col1, col2 = st.columns(2)
 with col1:
-    # La lista dentro le parentesi [ ] deve contenere gli abbinamenti del database
-    cibo = st.selectbox("Cosa mangerai?", ["Scegli...", "Pesce", "Carne", "Aperitivo"])
+    cibo = st.selectbox("1. Cosa mangi?", ["Scegli...", "Aperitivo", "Pesce", "Carne", "Dessert"])
+    corpo = st.selectbox("3. Struttura?", ["Scegli...", "Leggero", "Di Medio Corpo", "Robusto"])
 with col2:
-    # La lista dentro le parentesi [ ] deve contenere i mood del database
-    mood = st.selectbox("Che atmosfera cerchi?", ["Scegli...", "Cena con amici", "Incontro di lavoro", "Occasione Speciale"])
+    mood = st.selectbox("2. Atmosfera?", ["Scegli...", "Cena con amici", "Incontro di lavoro", "Occasione Speciale"])
+    stile = st.selectbox("4. Carattere?", ["Scegli...", "Secco", "Fruttato", "Aromatico", "Minerale"])
+
+st.write("")
 
 # =================================================================
-# 6. LOGICA DI CALCOLO (Il "cervello" che sceglie il vino)
+# 5. LOGICA DI RICERCA (Il "Cervello")
 # =================================================================
-if st.button("TROVA IL VINO IDEALE 🍇"):
+if st.button("🔎 TROVA IL VINO IDEALE", type="primary"):
     if cibo == "Scegli..." or mood == "Scegli...":
-        st.warning("Per favore, seleziona sia il cibo che l'atmosfera!")
+        st.warning("Per favore, seleziona almeno Cibo e Atmosfera!")
     else:
-        # Il sommelier "pensa" per 1 secondo
         with st.spinner("Il sommelier sta consultando la cantina..."):
             time.sleep(1)
         
-        # Filtriamo la lista vini in base alle scelte dell'utente
+        # Filtro base (Cibo + Mood)
         match = [v for v in vini if v["abbinamento"] == cibo and v["mood"] == mood]
         
-        # Se non troviamo il match perfetto, mostriamo i vini che vanno bene almeno col cibo
-        if not match: 
-            match = [v for v in vini if v["abbinamento"] == cibo]
+        # Se non c'è match, usiamo solo il cibo
+        if not match: match = [v for v in vini if v["abbinamento"] == cibo]
         
-        # Mostriamo i risultati
+        # Filtro opzionale per Corpo e Stile
         if match:
-            for vino in match:
-                # Questa parte trasforma i dati del database in una scheda grafica (HTML)
+            match_finale = match.copy()
+            if corpo != "Scegli...":
+                match_finale = [v for v in match_finale if v["corpo"] == corpo]
+            if stile != "Scegli...":
+                match_finale = [v for v in match_finale if v["stile"] == stile]
+            
+            # Se il filtro troppo stretto dà zero, torniamo al match precedente
+            risultati = match_finale if match_finale else match
+
+            st.success(f"Ho trovato {len(risultati)} proposta/e per te:")
+            for vino in risultati:
+                # LA SCHEDA GRAFICA (Come lo screenshot)
                 st.markdown(f"""
                 <div class="wine-card">
                     <img src="{vino['immagine']}" width="150">
@@ -129,7 +130,6 @@ if st.button("TROVA IL VINO IDEALE 🍇"):
                     <div class="wine-producer">{vino['produttore']}</div>
                     <div class="wine-region">{vino['regione']}</div>
                     <div class="wine-price">{vino['prezzo']}</div>
-                    
                     <div class="tech-info">
                         <p><span class="check">✔</span> <b>Uve:</b> {vino['uve']}</p>
                         <p><span class="check">✔</span> <b>Olfatto:</b> {vino['olfatto']}</p>
@@ -137,14 +137,25 @@ if st.button("TROVA IL VINO IDEALE 🍇"):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                # Bottone esterno alla card per andare alla scheda tecnica reale
-                st.link_button(f"📄 APRI CARTA: {vino['nome'].upper()}", vino['link_carta'])
+                # TASTO DINAMICO CATEGORIA
+                st.link_button(f"🔎 VEDI TUTTI I {vino['tipo'].upper()}", vino['link'])
+                st.write("")
         else:
-            st.error("Nessun vino trovato! Prova a cambiare abbinamento.")
+            st.error("Nessun vino trovato. Prova a cambiare i filtri!")
 
 # =================================================================
-# 7. PIE DI PAGINA (Footer)
+# 6. PULSANTIERA CATEGORIE (Tasti rapidi in basso)
 # =================================================================
 st.divider()
-st.caption("WineArt Selector - Sviluppato con passione per il gusto.")
+st.subheader("📂 Esplora le categorie:")
+c1, c2, c3 = st.columns(3)
+with c1: st.link_button("🥂 BOLLICINE", LINK_BOLLICINE)
+with c2: st.link_button("✨ CHAMPAGNE", LINK_CHAMPAGNE)
+with c3: st.link_button("🍸 BIANCHI", LINK_BIANCHI)
+
+c4, c5, c6 = st.columns(3)
+with c4: st.link_button("🌸 ROSÈ", LINK_ROSE)
+with c5: st.link_button("🍷 ROSSI", LINK_ROSSI)
+with c6: st.link_button("🌍 ESTERI", LINK_ESTERI)
+
+st.caption("WineArt Selector - Tecnologia applicata al gusto.")
